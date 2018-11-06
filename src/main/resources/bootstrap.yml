@@ -1,0 +1,51 @@
+enn:
+  baseDir: /data/iot/${spring.application.name}
+spring:
+  application:
+    name: iot-mqtt-transfer-kafka-hps
+  cloud:
+    config:
+      profile: ${spring.profiles.active}
+      label: master
+      #todo 修改项1
+      username: iot_config_user
+      password: 1qazxsw@
+      discovery:
+        enabled: true
+        service-id: iot-config-server
+      fail-fast: true
+    stream:
+      default-binder: kafka
+      bindings:
+        output:
+          destination: data_iot_HPS_uncim
+          content-type: application/json
+          binder: kafka
+          producer:
+            headerMode: raw
+      kafka:
+        binder:
+          brokers: 10.39.10.146:9092,10.39.10.147:9092,10.39.10.148:9092
+          zk-nodes: 10.39.10.143:2181,10.39.10.144:2181,10.39.10.145:2181
+  messages:
+    basename: i18n/log_messages
+  kafka:
+    #    bootstrap-servers: 10.39.10.146:9092,10.39.10.147:9092,10.39.10.148:9092
+    producer:
+      client-id: mqtttransferkafka
+
+eureka:
+  #服务实例元数据配置
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    service-url:
+    #todo 修改项2
+      defaultZone: http://iot-eureka-server1.enncloud.cn:8761/eureka/,http://iot-eureka-server2.enncloud.cn:8761/eureka/
+logging:
+  file: ${enn.baseDir}/logs/${spring.application.name}.log
+  file.max-size: 10MB
+  file.max-history: 15
+  level:
+    root: INFO
