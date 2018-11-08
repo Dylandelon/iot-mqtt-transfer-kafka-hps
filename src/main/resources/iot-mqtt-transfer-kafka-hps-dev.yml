@@ -31,7 +31,7 @@ spring:
       # 当前数据库wait_timeout: 3600秒
       max-lifetime: 1800000
       # 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)
-      maximum-pool-size: 10
+      maximum-pool-size: 2
       # 连接池中允许的最大空闲连接数。缺省值：10；
       minimum-idle: 2
       pool-name: HikariConnPool
@@ -79,11 +79,15 @@ enn:
       bootstrap-servers: 10.39.10.146:9092,10.39.10.147:9092,10.39.10.148:9092
       topic: enn_logging_kafka_topic
   mqtt:
-    host: tcp://10.39.43.119:1883
+#    host: tcp://10.39.43.119:1883
+#    publisher: samplePublisher
+#    consumer: dampleConsumer
+    host: tcp://10.38.128.37:1883
     publisher: samplePublisher
     consumer: dampleConsumer
     topic: allInOne
-    username: admin1
+#    username: admin1
+    username: admin
     password: public
     pakageSize: 300
     timeout: 5000

@@ -15,14 +15,15 @@ import cn.enncloud.iot.iotmqtttransferkafkahps.vo.MessageMain;
 import cn.enncloud.iot.iotmqtttransferkafkahps.vo.MetricData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,20 +41,23 @@ public class MessageKafkaCimHandler {
     @Autowired
     private AdapterProperties adapterProperties;
 
-    @Qualifier("AnyLinkDataExecuteServiceImpl")
+    @Resource(name = "AnyLinkDataExecuteServiceImpl")
     private IMessageProcessService anyLinkDataExecuteService;
-    @Qualifier("SixNetDataExecuteServiceImpl")
+    @Resource(name = "SixNetDataExecuteServiceImpl")
     private IMessageProcessService sixNetDataExecuteService;
-    @Qualifier("SfhlDataExecuteServiceImpl")
+    @Resource(name = "SfhlDataExecuteServiceImpl")
     private IMessageProcessService sfhlDataExecuteService;
 
     @Autowired
     private IDevGatewayService devGatewayService;
 
+    private static final String CHARSET = "UTF-8";
     @StreamListener(Sink.INPUT)
-    public void doProcess(String payload){
+    public void doProcess(Message<byte[]> message){
         try {
-            String jsonData = payload;
+//            String jsonData = new String(message.getPayload().toByteArray(), CHARSET);
+            String jsonData = new String(message.getPayload(), CHARSET);
+            jsonData = jsonData.replace("[31]", "");
             Map<Long,List<MetricData>> itemMainData = null;
             Map dataItem = JsonUtils.readObject(jsonData, Map.class);
             if(dataItem != null && dataItem.containsKey("ts")){

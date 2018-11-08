@@ -23,7 +23,7 @@ import java.util.Map;
  * Created by houkang on 2018/7/4.
  */
 @Slf4j
-@Service
+@Service(value = "AnyLinkDataExecuteServiceImpl")
 public class AnyLinkDataExecuteServiceImpl implements IMessageProcessService {
 
   private static final String MASK_PRE = "mask-0x";
