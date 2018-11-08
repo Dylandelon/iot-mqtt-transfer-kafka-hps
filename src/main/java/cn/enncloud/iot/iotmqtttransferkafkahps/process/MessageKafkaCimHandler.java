@@ -1,5 +1,6 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.process;
 
+
 import cn.enncloud.iot.iotmqtttransferkafkahps.beans.DevGatewayEntity;
 import cn.enncloud.iot.iotmqtttransferkafkahps.constant.AdapterProperties;
 import cn.enncloud.iot.iotmqtttransferkafkahps.constant.DeviceFactoryConst;
@@ -19,7 +20,6 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.Message;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -51,25 +51,32 @@ public class MessageKafkaCimHandler {
     private IDevGatewayService devGatewayService;
 
     @StreamListener(Sink.INPUT)
-    public void doProcess(Message<?> message){
+    public void doProcess(String payload){
         try {
-            String jsonData = (String)message.getPayload();
+            String jsonData = payload;
             Map<Long,List<MetricData>> itemMainData = null;
             Map dataItem = JsonUtils.readObject(jsonData, Map.class);
-            if(dataItem != null && dataItem.containsKey("z")){
+            if(dataItem != null && dataItem.containsKey("ts")){
+
+                log.info("判断为{}", DeviceFactoryConst.SIXNET);
+                itemMainData = sixNetDataExecuteService.execute(jsonData);
+            }else  if(dataItem != null && dataItem.containsKey("z")){
                 String serialnumber  = (String) dataItem.get("z");
                 DevGatewayEntity devGatewayEntity = devGatewayService.findBySerialnumber(serialnumber);
                 if(devGatewayEntity.getFirm().equalsIgnoreCase(DeviceFactoryConst.ANYLINK)){
 
+                    log.info("判断为{}",DeviceFactoryConst.ANYLINK);
                     itemMainData = anyLinkDataExecuteService.execute(jsonData);
                 }else if(devGatewayEntity.getFirm().equalsIgnoreCase(DeviceFactoryConst.SHENGFENGHELI)){
+                    log.info("判断为{}",DeviceFactoryConst.SHENGFENGHELI);
                     itemMainData = sfhlDataExecuteService.execute(jsonData);
                 }else {
                     log.error("不能匹配到设备:"+serialnumber);
+                    return;
                 }
-            }else if(dataItem != null && dataItem.containsKey("ts")){
-
-                itemMainData = sixNetDataExecuteService.execute(jsonData);
+            }else{
+                log.error("收到数据格式不正确:"+jsonData);
+                return;
             }
 
             if(!CollectionUtils.isEmpty(itemMainData)){
