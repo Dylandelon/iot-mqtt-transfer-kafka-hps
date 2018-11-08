@@ -1,9 +1,13 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.configuration;
 
+import cn.enncloud.iot.iotmqtttransferkafkahps.constant.AdapterProperties;
+import cn.enncloud.iot.iotmqtttransferkafkahps.process.MessageMqttProcessHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
@@ -20,17 +24,22 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 
+import java.util.Optional;
+
 @Slf4j
 @Configuration
 public class MqttConfig {
+    @Autowired
+    private MessageMqttProcessHandler messageProcess;
+    @Autowired
+    private AdapterProperties adapterProperties;
     @Bean
     public MqttPahoClientFactory mqttClientFactory() {
         DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
         MqttConnectOptions options = new MqttConnectOptions();
-//        options.setServerURIs(new String[] { "tcp://localhost:1883" });
-        options.setServerURIs(new String[] { "tcp://10.39.43.119:1883" });
-        options.setUserName("admin1");
-        options.setPassword("public".toCharArray());
+        options.setServerURIs(new String[] { adapterProperties.getHost() });
+        options.setUserName(adapterProperties.getUsername());
+        options.setPassword(adapterProperties.getPassword().toCharArray());
         factory.setConnectionOptions(options);
         return factory;
     }
@@ -45,21 +54,22 @@ public class MqttConfig {
 //                .transform(p -> p + " sent to MQTT")
 //                .handle(mqttOutbound())
 //                .get();
-        return IntegrationFlows.from(outChannel())
+        return IntegrationFlows.from(outChannelMqtt())
                 .handle(mqttOutbound())
                 .get();
     }
 
+    @Primary
     @Bean
-    public MessageChannel outChannel() {
+    public MessageChannel outChannelMqtt() {
         return new DirectChannel();
     }
 
     @Bean
     public MessageHandler mqttOutbound() {
-        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler("siSamplePublisher", mqttClientFactory());
+        MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(adapterProperties.getPublisher(), mqttClientFactory());
         messageHandler.setAsync(true);
-        messageHandler.setDefaultTopic("allInOne");
+        messageHandler.setDefaultTopic(adapterProperties.getTopic());
         return messageHandler;
     }
 
@@ -79,7 +89,13 @@ public class MqttConfig {
         return new MessageHandler() {
             @Override
             public void handleMessage(Message<?> message) throws MessagingException {
-                log.info("my"+message.getPayload());
+                Optional optional = Optional.ofNullable(message.getPayload());
+                if(optional.isPresent()){
+                    messageProcess.doProcess(message);
+                }else{
+                    log.info("my"+message.getHeaders());
+                }
+
             }
 
         };
@@ -94,14 +110,14 @@ public class MqttConfig {
 
     @Bean
     public MessageProducerSupport mqttInbound() {
-        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter("siSampleConsumer",
-                mqttClientFactory(), "allInOne");
-        adapter.setCompletionTimeout(5000);
+        MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(adapterProperties.getConsumer(),
+                mqttClientFactory(), adapterProperties.getTopic());
+        adapter.setCompletionTimeout(adapterProperties.getTimeout());
         adapter.setConverter(new DefaultPahoMessageConverter());
-        adapter.setQos(1);
+        adapter.setQos(adapterProperties.getQos());
         return adapter;
     }
-    @MessagingGateway(defaultRequestChannel = "outChannel")
+    @MessagingGateway(defaultRequestChannel = "outChannelMqtt")
     public interface MessageWriter{
         void write(String data);
     }
