@@ -17,12 +17,23 @@ spring:
     stream:
       default-binder: kafka
       bindings:
-        output:
+        cim_output:
           destination: data_iot_HPS_cim_test
           content-type: application/json
           binder: kafka
           producer:
             headerMode: raw
+        output:
+          destination: data_iot_HPS_uncim
+          content-type: application/json
+          binder: kafka
+          producer:
+            headerMode: raw
+        input:
+          destination: data_iot_HPS_uncim
+          content-type: application/json
+          binder: kafka
+          group: hpsgroup
       kafka:
         binder:
           brokers: 10.39.10.146:9092,10.39.10.147:9092,10.39.10.148:9092
