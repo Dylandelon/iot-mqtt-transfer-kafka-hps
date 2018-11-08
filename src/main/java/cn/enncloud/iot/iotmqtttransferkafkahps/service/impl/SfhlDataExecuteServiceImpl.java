@@ -19,7 +19,7 @@ import java.util.*;
  * Created by houkang on 2018/7/5.
  */
 @Slf4j
-@Service
+@Service(value = "SfhlDataExecuteServiceImpl")
 public class SfhlDataExecuteServiceImpl implements IMessageProcessService {
 
   @Autowired

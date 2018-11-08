@@ -18,7 +18,7 @@ import java.util.*;
  * Created by houkang on 2018/7/4.
  */
 @Slf4j
-@Service
+@Service(value = "SixNetDataExecuteServiceImpl")
 public class SixNetDataExecuteServiceImpl implements IMessageProcessService {
 
   @Autowired

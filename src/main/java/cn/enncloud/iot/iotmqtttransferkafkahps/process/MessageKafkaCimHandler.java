@@ -16,9 +16,6 @@ import cn.enncloud.iot.iotmqtttransferkafkahps.vo.MetricData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -29,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@EnableBinding(value = Sink.class)
+//@EnableBinding(value = Sink.class)
 public class MessageKafkaCimHandler {
     @Autowired
     private IQueryDataPoinService iQueryDataPoinService;
@@ -50,7 +47,7 @@ public class MessageKafkaCimHandler {
     @Autowired
     private IDevGatewayService devGatewayService;
 
-    @StreamListener(Sink.INPUT)
+//    @StreamListener(Sink.INPUT)
     public void doProcess(String payload){
         try {
             String jsonData = payload;

@@ -30,14 +30,14 @@ spring:
           binder: kafka
           producer:
             headerMode: raw
-        input:
-          destination: data_iot_HPS_uncim_test
-#          content-type: text/plain;charset=UTF-8
-          content-type: application/json
-          binder: kafka
-          group: hpsgroup
-          consumer:
-            startOffset: latest
+#        input:
+#          destination: data_iot_HPS_uncim_test
+##          content-type: text/plain;charset=UTF-8
+#          content-type: application/json
+#          binder: kafka
+#          group: hpsgroup
+#          consumer:
+#            startOffset: latest
       kafka:
         binder:
           brokers: 10.39.10.146:9092,10.39.10.147:9092,10.39.10.148:9092
