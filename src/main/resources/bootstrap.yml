@@ -24,13 +24,13 @@ spring:
           producer:
             headerMode: raw
         output:
-          destination: data_iot_HPS_uncim
+          destination: data_iot_HPS_uncim_test
           content-type: application/json
           binder: kafka
           producer:
             headerMode: raw
         input:
-          destination: data_iot_HPS_uncim
+          destination: data_iot_HPS_uncim_test
           content-type: application/json
           binder: kafka
           group: hpsgroup

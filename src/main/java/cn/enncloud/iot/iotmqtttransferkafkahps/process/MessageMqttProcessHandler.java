@@ -18,6 +18,7 @@ public class MessageMqttProcessHandler {
 
     public void doProcess(Message<?> message){
         try {
+            log.error("mqtt to uncimkafka thread handler  receive:{}",message.getPayload());
             this.output.send(message);
         }catch (Exception e){
             log.error("mqtt to uncimkafka thread handler  exception:{}",e);
