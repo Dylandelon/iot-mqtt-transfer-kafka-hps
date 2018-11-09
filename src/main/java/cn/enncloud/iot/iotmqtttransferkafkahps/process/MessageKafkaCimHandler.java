@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @EnableBinding(value = Sink.class)
@@ -136,7 +137,7 @@ public class MessageKafkaCimHandler {
         realTimeResult.getData().forEach(realMetric -> {
             CimRealTimeMetricDTO.MetricData metricData = cimRealTimeMetricDTO.new MetricData();
             metricData.setMetric(realMetric.getMetric());
-            metricData.setTime(realMetric.getTime());
+            metricData.setTime(TimeUnit.MILLISECONDS.toSeconds(realMetric.getTime()));
             metricData.setValue(realMetric.getValue());
             metricDataList.add(metricData);
         });
@@ -153,7 +154,8 @@ public class MessageKafkaCimHandler {
                 packageMetrics = metricDataList.subList(i * adapterProperties.getPakageSize(), (i + 1) * adapterProperties.getPakageSize());
             }
             cimRealTimeMetricDTOCIM.setAllPoints(String.valueOf(packageMetrics.size()));
-            cimRealTimeMetricDTOCIM.setDomain(realTimeResult.getDomain());
+//            cimRealTimeMetricDTOCIM.setDomain(realTimeResult.getDomain());
+            cimRealTimeMetricDTOCIM.setDomain("HPS");
             cimRealTimeMetricDTOCIM.setData(packageMetrics);
             cimRealTimeMetricDTOCIM.setStaId(realTimeResult.getStaId());
             cimRealTimeMetricDTOCIM.setVersion(realTimeResult.getVersion());
