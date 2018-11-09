@@ -69,7 +69,8 @@ public class SixNetDataExecuteServiceImpl implements IMessageProcessService {
               String devId = mapping.getDeviceId().toString();
 
               MetricData ctMetricData = new MetricData();
-              ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
+//              ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
+              ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric+"-"+itemid);
               ctMetricData.setTime(time.getTime());
               ctMetricData.setValue(dataValue);
               Long orgid = mapping.getOrgId().longValue();

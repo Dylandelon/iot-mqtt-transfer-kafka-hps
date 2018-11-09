@@ -86,7 +86,8 @@ public class AnyLinkDataExecuteServiceImpl implements IMessageProcessService {
 
               }
               MetricData ctMetricData = new MetricData();
-              ctMetricData.setMetric(commonMap.get(anyLinkData.getDevType() + "") + "_" + devId + "_" + metric);
+//              ctMetricData.setMetric(commonMap.get(anyLinkData.getDevType() + "") + "_" + devId + "_" + metric);
+              ctMetricData.setMetric(commonMap.get(anyLinkData.getDevType() + "") + "_" + devId + "_" + metric+"-"+deviceId+"-"+itemId);
               ctMetricData.setTime(time);
               ctMetricData.setValue(dataValue);
               Long orgid = anyLinkData.getOrgId().longValue();
