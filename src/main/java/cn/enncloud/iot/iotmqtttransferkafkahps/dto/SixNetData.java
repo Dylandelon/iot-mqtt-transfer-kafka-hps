@@ -1,16 +1,24 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
- * Created by houkang on 2018/7/5.
+ * Created by zhangdelong on 2018/7/5.
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Component
 public class SixNetData implements Serializable{
-
+// todo 增加点表
 
     private BigInteger deviceId;
 
@@ -27,82 +35,8 @@ public class SixNetData implements Serializable{
     private BigInteger orgId; //组织id
 
     private String attrGroup; //设备分类
+//    private String cimDataName ; //1
+    private String devCimId  ; //2
+    private String cimPath; //3
 
-    public BigInteger getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(BigInteger deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getMetric() {
-        return metric;
-    }
-
-    public void setMetric(String metric) {
-        this.metric = metric;
-    }
-
-    public BigInteger getDid() {
-        return did;
-    }
-
-    public void setDid(BigInteger did) {
-        this.did = did;
-    }
-
-    public BigInteger getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(BigInteger itemId) {
-        this.itemId = itemId;
-    }
-
-    public Integer getDevType() {
-        return devType;
-    }
-
-    public void setDevType(Integer devType) {
-        this.devType = devType;
-    }
-
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
-
-    public BigInteger getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(BigInteger orgId) {
-        this.orgId = orgId;
-    }
-
-    public String getAttrGroup() {
-        return attrGroup;
-    }
-
-    public void setAttrGroup(String attrGroup) {
-        this.attrGroup = attrGroup;
-    }
-
-  @Override
-  public String toString() {
-    return "SixNetData{" +
-      "deviceId=" + deviceId +
-      ", metric='" + metric + '\'' +
-      ", did=" + did +
-      ", itemId=" + itemId +
-      ", devType=" + devType +
-      ", deviceName='" + deviceName + '\'' +
-      ", orgId=" + orgId +
-      ", attrGroup='" + attrGroup + '\'' +
-      '}';
-  }
 }

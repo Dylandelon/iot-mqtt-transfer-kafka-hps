@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 /**
- * Created by houkang on 2018/4/12.
+ * Created by zhangdelong on 2018/4/12.
  */
 @Component
 public class TopicData implements Serializable{

@@ -31,6 +31,12 @@ public class mqttTests {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
     }
+    @Test
+    public void testrepository() {
+
+
+//        SixNetData data = new SixNetData(1,)
+    }
 
 
 

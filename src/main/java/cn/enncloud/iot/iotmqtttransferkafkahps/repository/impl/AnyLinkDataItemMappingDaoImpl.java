@@ -9,13 +9,14 @@ import cn.enncloud.iot.iotmqtttransferkafkahps.repository.AnyLinkDataItemMapping
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Created by Tony on 2017/8/22.
+ * Created by zhangdelong on 2017/8/22.
  */
 @Repository
 public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao {
@@ -23,6 +24,7 @@ public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao 
 	@PersistenceContext
 	private EntityManager em;
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<AnyLinkData> findByAgentId (String agentId ) {
 		String sql = "SELECT dev.gateway_dev_num did, mapping.item_id itemId, mapping.device_id deviceId,  phy.target_path metric,phy.attr_group attrGroup, dev.device_type devType,dev.depict deviceName,dev.org_id orgId,phy.mask_code maskCode " +
@@ -37,6 +39,7 @@ public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao 
 		return nativeQuery.list();
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public TopicData getTopicDataByType(Long orgId) {
 		String sql = " select    c.data_value dataValue ,c.data_name_short dataNameShort,c.data_topic dataTopic,o.stand_id standId  " +
@@ -55,6 +58,7 @@ public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao 
 	}
 
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<SixNetData> queryDeviceDataByAgentId(String agentId){
 		String sql = "SELECT dev.id did, phy.id itemId, dev.id deviceId,  phy.target_path metric,phy.attr_group attrGroup, dev.device_type devType,dev.depict deviceName,dev.org_id orgId" +
@@ -74,6 +78,7 @@ public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao 
 	}
 
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<CommonData> queryCommonData(String dateType){
 		String sql = "SELECT data_name dataName  ,data_value dataValue, data_name_short dataNameShort  from common_data where data_type=:dateType " ;

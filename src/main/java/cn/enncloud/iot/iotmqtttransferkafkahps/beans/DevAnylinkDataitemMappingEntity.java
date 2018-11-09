@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dev_anylink_dataitem_mapping", schema = "hps_test", catalog = "")
+@Table(name = "dev_anylink_dataitem_mapping")
 public class DevAnylinkDataitemMappingEntity {
     private long id;
     private Timestamp createTime;

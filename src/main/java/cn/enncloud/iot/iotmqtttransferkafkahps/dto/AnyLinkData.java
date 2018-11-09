@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
- * Created by Tony on 2017/8/16.
+ * Created by zhangdelong on 2017/8/16.
  */
 public class AnyLinkData implements Serializable {
 

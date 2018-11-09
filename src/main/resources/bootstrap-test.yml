@@ -1,3 +1,11 @@
+spring:
+  cloud:
+    config:
+      # For profile-dev
+      enabled: false
+  config:
+    # For profile-dev
+    location: 'classpath:/iot-mqtt-transfer-kafka-hps-test.yml'
 enn:
   logging:
     kafka:

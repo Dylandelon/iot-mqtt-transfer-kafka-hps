@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dev_point_table_config", schema = "hps_test", catalog = "")
+@Table(name = "dev_point_table_config")
 public class DevPointTableConfigEntity {
     private long id;
     private Timestamp createTime;

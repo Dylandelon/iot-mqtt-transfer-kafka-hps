@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Tony on 2017/8/22.
+ * Created by zhangdelong on 2017/8/22.
  */
 public interface IQueryDataPoinService {
 

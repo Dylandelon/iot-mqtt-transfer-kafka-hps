@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dev_device", schema = "hps_test", catalog = "")
+@Table(name = "dev_device")
 public class DevDeviceEntity {
     private long id;
     private Timestamp createTime;
@@ -51,6 +51,7 @@ public class DevDeviceEntity {
     private String gatewayDevNum;
     private String remarks;
     private Long source;
+    private String devCimId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -482,6 +483,16 @@ public class DevDeviceEntity {
         this.source = source;
     }
 
+    @Basic
+    @Column(name = "dev_cim_id", nullable = true, length = 50)
+    public String getDevCimId() {
+        return devCimId;
+    }
+
+    public void setDevCimId(String devCimId) {
+        this.devCimId = devCimId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -529,11 +540,12 @@ public class DevDeviceEntity {
                 Objects.equals(addrRegion, that.addrRegion) &&
                 Objects.equals(gatewayDevNum, that.gatewayDevNum) &&
                 Objects.equals(remarks, that.remarks) &&
-                Objects.equals(source, that.source);
+                Objects.equals(source, that.source) &&
+                Objects.equals(devCimId, that.devCimId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createTime, createUser, deleted, updateTime, updateUser, version, address, alarmActive, addrCity, depict, deviceType, enginePower, equipNum, ipAddress, addrLatitude, addrLongitude, port, addrProvince, serialnumber, slaveStation, alarmSource, state, devSupplier, engineManufactor, dtuCode, collectionFrequency, collectionMode, reportTime, comPort, orgErpCode, flowRangeHigh, flowRangeLow, tankTotal, deviceTypeName, branche, accessWay, parseMode, parseType, addrRegion, gatewayDevNum, remarks, source);
+        return Objects.hash(id, createTime, createUser, deleted, updateTime, updateUser, version, address, alarmActive, addrCity, depict, deviceType, enginePower, equipNum, ipAddress, addrLatitude, addrLongitude, port, addrProvince, serialnumber, slaveStation, alarmSource, state, devSupplier, engineManufactor, dtuCode, collectionFrequency, collectionMode, reportTime, comPort, orgErpCode, flowRangeHigh, flowRangeLow, tankTotal, deviceTypeName, branche, accessWay, parseMode, parseType, addrRegion, gatewayDevNum, remarks, source, devCimId);
     }
 }

@@ -30,6 +30,7 @@ public class AdapterProperties {
     private String consumer;
     private Integer timeout;
     private Integer qos;
+    private String pre;
 
 
 }

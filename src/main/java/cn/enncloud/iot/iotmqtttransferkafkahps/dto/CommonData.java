@@ -3,7 +3,7 @@ package cn.enncloud.iot.iotmqtttransferkafkahps.dto;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by houkang on 2018/7/5.
+ * Created by zhangdelong on 2018/7/5.
  */
 @Component
 public class CommonData {

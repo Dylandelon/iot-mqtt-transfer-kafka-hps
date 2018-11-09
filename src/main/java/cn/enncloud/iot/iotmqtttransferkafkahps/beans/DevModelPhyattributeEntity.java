@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "dev_model_phyattribute", schema = "hps_test", catalog = "")
+@Table(name = "dev_model_phyattribute")
 public class DevModelPhyattributeEntity {
     private long id;
     private Timestamp createTime;
@@ -28,6 +28,7 @@ public class DevModelPhyattributeEntity {
     private String targetPath;
     private String anylinkAddress;
     private Integer channel;
+    private String cimPath;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -239,6 +240,16 @@ public class DevModelPhyattributeEntity {
         this.channel = channel;
     }
 
+    @Basic
+    @Column(name = "cim_path", nullable = true, length = 100)
+    public String getCimPath() {
+        return cimPath;
+    }
+
+    public void setCimPath(String cimPath) {
+        this.cimPath = cimPath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -264,11 +275,12 @@ public class DevModelPhyattributeEntity {
                 Objects.equals(shortName, that.shortName) &&
                 Objects.equals(targetPath, that.targetPath) &&
                 Objects.equals(anylinkAddress, that.anylinkAddress) &&
-                Objects.equals(channel, that.channel);
+                Objects.equals(channel, that.channel) &&
+                Objects.equals(cimPath, that.cimPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createTime, createUser, deleted, updateTime, updateUser, version, attrGroup, byteLen, byteOrder, controlFlag, depict, frequency, funCode, showIndex, maskCode, registerStie, shortName, targetPath, anylinkAddress, channel);
+        return Objects.hash(id, createTime, createUser, deleted, updateTime, updateUser, version, attrGroup, byteLen, byteOrder, controlFlag, depict, frequency, funCode, showIndex, maskCode, registerStie, shortName, targetPath, anylinkAddress, channel, cimPath);
     }
 }

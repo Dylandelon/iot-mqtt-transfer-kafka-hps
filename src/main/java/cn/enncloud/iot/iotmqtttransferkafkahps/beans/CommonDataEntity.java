@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "common_data", schema = "hps_test", catalog = "")
+@Table(name = "common_data")
 public class CommonDataEntity {
     private long id;
     private String dataName;
@@ -19,6 +19,7 @@ public class CommonDataEntity {
     private Timestamp updateTime;
     private String updateUser;
     private long version;
+    private String cimDataName;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -140,6 +141,16 @@ public class CommonDataEntity {
         this.version = version;
     }
 
+    @Basic
+    @Column(name = "cim_data_name", nullable = true, length = 100)
+    public String getCimDataName() {
+        return cimDataName;
+    }
+
+    public void setCimDataName(String cimDataName) {
+        this.cimDataName = cimDataName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -156,11 +167,12 @@ public class CommonDataEntity {
                 Objects.equals(createTime, that.createTime) &&
                 Objects.equals(createUser, that.createUser) &&
                 Objects.equals(updateTime, that.updateTime) &&
-                Objects.equals(updateUser, that.updateUser);
+                Objects.equals(updateUser, that.updateUser) &&
+                Objects.equals(cimDataName, that.cimDataName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dataName, dataValue, dataType, dataNameShort, dataTopic, createTime, createUser, deleted, updateTime, updateUser, version);
+        return Objects.hash(id, dataName, dataValue, dataType, dataNameShort, dataTopic, createTime, createUser, deleted, updateTime, updateUser, version, cimDataName);
     }
 }

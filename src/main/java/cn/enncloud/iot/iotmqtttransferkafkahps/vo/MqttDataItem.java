@@ -3,7 +3,7 @@ package cn.enncloud.iot.iotmqtttransferkafkahps.vo;
 import java.util.List;
 
 /**
- * Created by Tony on 2017/8/15.
+ * Created by zhangdelong on 2017/8/15.
  */
 public class MqttDataItem {
 	

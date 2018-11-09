@@ -1,5 +1,6 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.service.impl;
 
+import cn.enncloud.iot.iotmqtttransferkafkahps.constant.AdapterProperties;
 import cn.enncloud.iot.iotmqtttransferkafkahps.constant.CacheConst;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.AnyLinkData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.SixNetData;
@@ -25,6 +26,9 @@ public class DataCacheServiceImpl implements IDataCacheService {
     private AnyLinkDataItemMappingDao dataItemMappingDao;
     @Autowired
     private IQueryDataPoinService queryRedisCommonData;
+
+    @Autowired
+    private AdapterProperties adapterProperties;
     /**
      * 删除缓存
      * @param agentId
@@ -48,7 +52,7 @@ public class DataCacheServiceImpl implements IDataCacheService {
 
         try {
             String key = getKey(agentId);
-            List<AnyLinkData> dataList = (List<AnyLinkData>)redisTemplate.opsForHash().values(key);
+            List<AnyLinkData> dataList = (List<AnyLinkData>)redisTemplate.opsForHash().values(key).get(0);
             if(!CollectionUtils.isEmpty(dataList)){
                 return dataList;
             }else {
@@ -69,7 +73,7 @@ public class DataCacheServiceImpl implements IDataCacheService {
     }
 
     private String getKey(String agentId){
-        return CacheConst.IOT_CACHA_DATA+agentId;
+        return adapterProperties.getPre()+"_"+CacheConst.IOT_CACHA_DATA+agentId;
     }
 
     /**
@@ -81,7 +85,7 @@ public class DataCacheServiceImpl implements IDataCacheService {
     public  List<SixNetData> getByAgentId(String agentId) {
         try {
             String key = getKey(agentId);
-            List<SixNetData> dataList = (List<SixNetData>)redisTemplate.opsForHash().values(key);
+            List<SixNetData> dataList = (List<SixNetData>)redisTemplate.opsForHash().values(key).get(0);
             if(!CollectionUtils.isEmpty(dataList)){
                 return dataList;
             }else {
@@ -107,13 +111,14 @@ public class DataCacheServiceImpl implements IDataCacheService {
      */
     public Map<String, String> getCommonData() {
         try {
-            Map<String,String> dataList = (Map<String,String>)redisTemplate.opsForHash().entries(CacheConst.IOT_CACHA_COMMON_DATA);
+            String key = adapterProperties.getPre()+CacheConst.IOT_CACHA_COMMON_DATA;
+            Map<String,String> dataList = (Map<String,String>)redisTemplate.opsForHash().entries(key).get(key);
             if(!CollectionUtils.isEmpty(dataList)){
                 return dataList;
             }else {
                 Map<String,String> data =  queryRedisCommonData.queryRedisCommonData();
                 if(!CollectionUtils.isEmpty(data)){
-                    redisTemplate.opsForHash().put(CacheConst.IOT_CACHA_COMMON_DATA,CacheConst.IOT_CACHA_COMMON_DATA,data);
+                    redisTemplate.opsForHash().put(key,adapterProperties.getPre()+key,data);
                     return data;
                 }else {
                     return null;
@@ -127,10 +132,11 @@ public class DataCacheServiceImpl implements IDataCacheService {
     }
     public  Object getByOrgId(Long orgid) {
         try {
-            String key = CacheConst.DATA_HUB_PRE+orgid;
-            Object obj =redisTemplate.opsForHash().values(key);
+            String key = adapterProperties.getPre()+"_"+CacheConst.DATA_HUB_PRE+orgid;
+            List res =redisTemplate.opsForHash().values(key);
+            Object obj = null;
             TopicData td;
-            if(null == obj){
+            if(CollectionUtils.isEmpty(res) || res.get(0) ==null){
                 //根据 orgid 查询站点id
                 td =  dataItemMappingDao.getTopicDataByType(orgid);
                 if(null == td){
@@ -138,9 +144,10 @@ public class DataCacheServiceImpl implements IDataCacheService {
                     return null;
                 }
                 //设置缓存后 应该再查询进行下面的操作
-                redisTemplate.opsForHash().put(CacheConst.DATA_HUB_PRE,CacheConst.DATA_HUB_PRE,obj);
-                return  obj;
+                redisTemplate.opsForHash().put(key,CacheConst.DATA_HUB_PRE,td);
+                return  td;
             }else {
+                obj = res.get(0);
                 return obj;
             }
         }catch (Exception e){

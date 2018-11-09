@@ -3,7 +3,7 @@ package cn.enncloud.iot.iotmqtttransferkafkahps.vo;
 import java.util.List;
 
 /**
- * Created by houkang on 2018/4/2.
+ * Created by zhangdelong on 2018/4/2.
  */
 public class MessageMain {
 
