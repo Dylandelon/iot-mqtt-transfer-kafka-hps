@@ -141,8 +141,9 @@ public class CommonDataEntity {
         this.version = version;
     }
 
-    @Basic
-    @Column(name = "cim_data_name", nullable = true, length = 100)
+//    @Basic
+//    @Column(name = "cim_data_name", nullable = true, length = 100)
+    @Transient
     public String getCimDataName() {
         return cimDataName;
     }

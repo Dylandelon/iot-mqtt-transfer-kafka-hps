@@ -483,8 +483,9 @@ public class DevDeviceEntity {
         this.source = source;
     }
 
-    @Basic
-    @Column(name = "dev_cim_id", nullable = true, length = 50)
+//    @Basic
+//    @Column(name = "dev_cim_id", nullable = true, length = 50)
+    @Transient
     public String getDevCimId() {
         return devCimId;
     }

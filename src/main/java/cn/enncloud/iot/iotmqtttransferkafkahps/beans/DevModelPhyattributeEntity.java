@@ -240,8 +240,9 @@ public class DevModelPhyattributeEntity {
         this.channel = channel;
     }
 
-    @Basic
-    @Column(name = "cim_path", nullable = true, length = 100)
+//    @Basic
+//    @Column(name = "cim_path", nullable = true, length = 100)
+    @Transient
     public String getCimPath() {
         return cimPath;
     }
