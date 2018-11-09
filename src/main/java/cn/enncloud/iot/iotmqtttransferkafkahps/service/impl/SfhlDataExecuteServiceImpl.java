@@ -67,7 +67,8 @@ public class SfhlDataExecuteServiceImpl implements IMessageProcessService {
             String devId = mapping.getDeviceId().toString();
 
             MetricData ctMetricData = new MetricData();
-            ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
+//            ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
+            ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric+"-"+itemId);
             ctMetricData.setTime(time);
             ctMetricData.setValue(dataValue);
             Long orgid = mapping.getOrgId().longValue();
