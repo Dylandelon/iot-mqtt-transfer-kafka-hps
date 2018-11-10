@@ -1,12 +1,15 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.dto;
 
 
+import lombok.ToString;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
  * Created by zhangdelong on 2017/8/16.
  */
+@ToString
 public class AnyLinkData implements Serializable {
 
 	private Long deviceId;
@@ -26,6 +29,10 @@ public class AnyLinkData implements Serializable {
 	private String attrGroup; //设备分类
 
 	private String maskCode;
+//	private String cimDataName ; //1
+	private String devCimId  ; //2
+	private String cimPath; //3
+	private String serialnumber;
 
 	public Long getDeviceId ( ) {
 		return deviceId;
@@ -101,18 +108,28 @@ public class AnyLinkData implements Serializable {
     this.maskCode = maskCode;
   }
 
-  @Override
-  public String toString() {
-    return "AnyLinkData{" +
-      "deviceId=" + deviceId +
-      ", metric='" + metric + '\'' +
-      ", did='" + did + '\'' +
-      ", itemId=" + itemId +
-      ", devType=" + devType +
-      ", deviceName='" + deviceName + '\'' +
-      ", orgId=" + orgId +
-      ", attrGroup='" + attrGroup + '\'' +
-      ", maskCode='" + maskCode + '\'' +
-      '}';
-  }
+	public String getSerialnumber() {
+		return serialnumber;
+	}
+
+	public void setSerialnumber(String serialnumber) {
+		this.serialnumber = serialnumber;
+	}
+
+
+	public String getDevCimId() {
+		return devCimId;
+	}
+
+	public void setDevCimId(String devCimId) {
+		this.devCimId = devCimId;
+	}
+
+	public String getCimPath() {
+		return cimPath;
+	}
+
+	public void setCimPath(String cimPath) {
+		this.cimPath = cimPath;
+	}
 }

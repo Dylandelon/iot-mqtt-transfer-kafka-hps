@@ -38,5 +38,6 @@ public class SixNetData implements Serializable{
 //    private String cimDataName ; //1
     private String devCimId  ; //2
     private String cimPath; //3
+    private String serialnumber;
 
 }

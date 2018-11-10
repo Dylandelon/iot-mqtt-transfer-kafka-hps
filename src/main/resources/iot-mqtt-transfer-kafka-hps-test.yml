@@ -11,8 +11,11 @@ server:
       pattern: '%h %l %u [%{yyyy-MM-dd HH:mm:ss}t] %{X-Real-IP}i "%r" %s %b %D'
 spring:
   datasource:
-    url: 'jdbc:mysql://10.39.8.248:3306/iot_dev?characterEncoding=UTF-8'
-    username: appadmin
+#    url: 'jdbc:mysql://10.39.8.248:3306/iot_dev?characterEncoding=UTF-8'
+    url: 'jdbc:mysql://10.39.10.227:3306/hps_test?useUnicode=true&characterEncoding=UTF8&useSSL=false'
+#    username: appadmin
+#    password: 1qazXSw@
+    username: iotadmin
     password: 1qazXSw@
     #### 以下配置项无需修改 ####
     type: com.zaxxer.hikari.HikariDataSource

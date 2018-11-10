@@ -3,6 +3,7 @@ package cn.enncloud.iot.iotmqtttransferkafkahps.service.impl;
 import cn.enncloud.iot.iotmqtttransferkafkahps.constant.AdapterProperties;
 import cn.enncloud.iot.iotmqtttransferkafkahps.constant.CacheConst;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.AnyLinkData;
+import cn.enncloud.iot.iotmqtttransferkafkahps.dto.CommonData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.SixNetData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.TopicData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.repository.AnyLinkDataItemMappingDao;
@@ -128,6 +129,27 @@ public class DataCacheServiceImpl implements IDataCacheService {
         }catch (Exception e){
             log.error("查询业务域错误:{}",e);
             return queryRedisCommonData.queryRedisCommonData();
+        }
+    }
+    public List<CommonData> getCommonDataList() {
+        try {
+            String key = adapterProperties.getPre()+CacheConst.IOT_CACHA_COMMON_DATA;
+            List<CommonData> dataList = (List<CommonData>)redisTemplate.opsForHash().values(key).get(0);
+            if(!CollectionUtils.isEmpty(dataList)){
+                return dataList;
+            }else {
+                List<CommonData> data =  queryRedisCommonData.queryRedisCommonDataList();
+                if(!CollectionUtils.isEmpty(data)){
+                    redisTemplate.opsForHash().put(key,adapterProperties.getPre()+key,data);
+                    return data;
+                }else {
+                    return null;
+                }
+
+            }
+        }catch (Exception e){
+            log.error("查询业务域错误:{}",e);
+            return queryRedisCommonData.queryRedisCommonDataList();
         }
     }
     public  Object getByOrgId(Long orgid) {

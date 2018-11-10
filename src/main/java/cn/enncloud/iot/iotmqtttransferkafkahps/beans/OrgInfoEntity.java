@@ -34,6 +34,7 @@ public class OrgInfoEntity {
     private Timestamp orgCreateTime;
     private String standId;
     private String deviceTypeName;
+    private String cimStandId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -305,6 +306,16 @@ public class OrgInfoEntity {
         this.deviceTypeName = deviceTypeName;
     }
 
+    @Basic
+    @Column(name = "cim_stand_id", nullable = true, length = 255)
+    public String getCimStandId() {
+        return cimStandId;
+    }
+
+    public void setCimStandId(String cimStandId) {
+        this.cimStandId = cimStandId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -336,11 +347,12 @@ public class OrgInfoEntity {
                 Objects.equals(tabZn, that.tabZn) &&
                 Objects.equals(orgCreateTime, that.orgCreateTime) &&
                 Objects.equals(standId, that.standId) &&
+                Objects.equals(cimStandId, that.cimStandId) &&
                 Objects.equals(deviceTypeName, that.deviceTypeName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createTime, createUser, deleted, updateTime, updateUser, version, depict, orgType, path, projectId, sort, status, authorizationCode, compCode, deviceType, entityCode, erpCode, orgLevel, orgRange, parentCode, swerk, tabZj, tabZn, orgCreateTime, standId, deviceTypeName);
+        return Objects.hash(id, createTime, createUser, deleted, updateTime, updateUser, version, depict, orgType, path, projectId, sort, status, authorizationCode, compCode, deviceType, entityCode, erpCode, orgLevel, orgRange, parentCode, swerk, tabZj, tabZn, orgCreateTime, standId, deviceTypeName,cimStandId);
     }
 }

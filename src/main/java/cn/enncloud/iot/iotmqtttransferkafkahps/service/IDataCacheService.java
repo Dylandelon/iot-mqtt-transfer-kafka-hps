@@ -1,6 +1,7 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.service;
 
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.AnyLinkData;
+import cn.enncloud.iot.iotmqtttransferkafkahps.dto.CommonData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.SixNetData;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface IDataCacheService {
     List<SixNetData> getByAgentId(String agentId);
     Map<String, String> getCommonData();
     Object getByOrgId(Long orgid);
+    List<CommonData> getCommonDataList();
 }

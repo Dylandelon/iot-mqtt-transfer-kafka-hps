@@ -103,7 +103,8 @@ public class MessageKafkaCimHandler {
                         //可以查询到业务域
                         if(obj instanceof TopicData){
                             td = (TopicData) obj;
-                            maindata.setStaId(td.getStandId());
+//                            maindata.setStaId(td.getStandId());
+                            maindata.setStaId("站"+td.getStandId()+"对应org_info.stand_id新站："+td.getCimStandId()+" org_info.cim_stand_id"+td.getStandId());
                             maindata.setAllPoints(metlist.size());
                             maindata.setData(metlist);
                             maindata.setDomain(td.getDataNameShort());

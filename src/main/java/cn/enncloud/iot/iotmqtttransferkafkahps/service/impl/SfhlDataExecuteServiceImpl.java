@@ -1,6 +1,7 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.service.impl;
 
 
+import cn.enncloud.iot.iotmqtttransferkafkahps.dto.CommonData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.SixNetData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.service.IDataCacheService;
 import cn.enncloud.iot.iotmqtttransferkafkahps.service.IMessageProcessService;
@@ -39,7 +40,8 @@ public class SfhlDataExecuteServiceImpl implements IMessageProcessService {
     }
 
 
-    Map<String, String> commonMap = dataCacheService.getCommonData();
+//    Map<String, String> commonMap = dataCacheService.getCommonData();
+    List<CommonData> commonDataList = dataCacheService.getCommonDataList();
     //获取网关序列号
     String agentId = dataItem.getZ();
     List<SixNetData>  dataList = dataCacheService.getByAgentId(agentId);
@@ -67,8 +69,21 @@ public class SfhlDataExecuteServiceImpl implements IMessageProcessService {
             String devId = mapping.getDeviceId().toString();
 
             MetricData ctMetricData = new MetricData();
-//            ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
-            ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric+"-"+itemId);
+            for (CommonData commonData:commonDataList) {
+              if(commonData.getDataValue().equalsIgnoreCase(mapping.getDevType() + "")){
+
+                String metri = commonData.getDataNameShort() + "_" + devId + "_" + metric;
+                String newMetir = commonData.getCimDataName() + "_" + mapping.getDevCimId() + "_" + mapping.getCimPath();
+
+                //            ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
+//                ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric+"-"+itemId);
+                ctMetricData.setMetric("原始报文网关："+agentId+"对应表dev_gateway.serialnumber ，设备："+itemId+"对应表dev_device.id_dev_model_phyattribute.id,点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path,站s对应org_info.stand_id，设备序列号："+mapping.getSerialnumber()+"对应dev_device.serialnumber," +
+                        "新增cim2.0映射对应"+newMetir+" :common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。站：zzh org_info.cim_stand_id");
+                break;
+              }
+
+            }
+
             ctMetricData.setTime(time);
             ctMetricData.setValue(dataValue);
             Long orgid = mapping.getOrgId().longValue();
