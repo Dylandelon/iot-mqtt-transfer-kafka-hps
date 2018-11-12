@@ -13,7 +13,7 @@ spring:
   datasource:
 #    url: 'jdbc:mysql://10.39.10.227:3306/hps_test?useUnicode=true&characterEncoding=UTF8&useSSL=false'
     # 读库 226
-    url: 'jdbc:mysql://10.39.10.226:3306/hps_test?useUnicode=true&characterEncoding=UTF8&useSSL=false'
+    url: 'jdbc:mysql://10.39.10.226:3306/hps_dev?useUnicode=true&characterEncoding=UTF8&useSSL=false'
     username: iotadmin
     password: 1qazXSw@
     #### 以下配置项无需修改 ####
@@ -82,13 +82,14 @@ enn:
       topic: enn_logging_kafka_topic
   mqtt:
 #    host: tcp://10.39.43.119:1883
-    host: tcp://10.38.128.37:1883
+#    host: tcp://10.37.151.21:18083
+    host: tcp://10.37.151.21:1883
     publisher: samplePublisher
     consumer: dampleConsumer
     topic: allInOne
 #    username: admin1
     username: admin
-    password: public
+    password: iotpsw
     pakageSize: 300
     timeout: 5000
     qos: 1

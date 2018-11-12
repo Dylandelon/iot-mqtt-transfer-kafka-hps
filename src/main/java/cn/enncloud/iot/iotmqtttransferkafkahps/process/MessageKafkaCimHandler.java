@@ -68,6 +68,9 @@ public class MessageKafkaCimHandler {
             }else  if(dataItem != null && dataItem.containsKey("z")){
                 String serialnumber  = (String) dataItem.get("z");
                 DevGatewayEntity devGatewayEntity = devGatewayService.findBySerialnumber(serialnumber);
+                if(devGatewayEntity ==null){
+                    log.info("获取数据库中网关信息为空,序列号：{}",serialnumber);
+                }
                 if(devGatewayEntity.getFirm().equalsIgnoreCase(DeviceFactoryConst.ANYLINK)){
 
                     log.info("判断为{}",DeviceFactoryConst.ANYLINK);

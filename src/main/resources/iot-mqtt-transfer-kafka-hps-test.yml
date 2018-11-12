@@ -59,7 +59,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
         generate_statistics: false
-    show-sql: false
+    show-sql: true
   rabbitmq:
     host: 10.39.10.116
     port: 5672
@@ -83,13 +83,15 @@ enn:
       topic: enn_logging_kafka_topic
   mqtt:
 #    host: tcp://10.39.43.119:1883
-    host: tcp://10.38.128.37:1883
+#    host: tcp://10.38.128.37:1883
+    host: tcp://10.37.151.21:1883
     publisher: samplePublisher
     consumer: dampleConsumer
     topic: allInOne
 #    username: admin1
     username: admin
-    password: public
+#    password: public
+    password: iotpsw
     pakageSize: 300
     timeout: 5000
     qos: 1

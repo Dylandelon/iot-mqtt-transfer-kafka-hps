@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface IDataCacheService {
-    void deleteWithAgentId(String agentId);
+    void deleteWithkeys();
+    long deleteWithAgentId(String hk);
     List<AnyLinkData> getAnyLinkPointByAgentId(String agentId);
     List<SixNetData> getByAgentId(String agentId);
     Map<String, String> getCommonData();

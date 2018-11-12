@@ -81,7 +81,7 @@ public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao 
 	@Transactional(readOnly = true)
 	@Override
 	public List<CommonData> queryCommonData(String dateType){
-		String sql = "SELECT data_name dataName  ,data_value dataValue, data_name_short dataNameShort,cim_data_name cimDataName,  from common_data where data_type=:dateType " ;
+		String sql = "SELECT data_name dataName  ,data_value dataValue, data_name_short dataNameShort,cim_data_name cimDataName  from common_data where data_type=:dateType " ;
 
 
 		SQLQuery nativeQuery = em.createNativeQuery(sql).unwrap(SQLQuery.class);
