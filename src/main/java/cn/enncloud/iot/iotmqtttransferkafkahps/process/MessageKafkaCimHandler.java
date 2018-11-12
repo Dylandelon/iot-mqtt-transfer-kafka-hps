@@ -68,6 +68,9 @@ public class MessageKafkaCimHandler {
             }else  if(dataItem != null && dataItem.containsKey("z")){
                 String serialnumber  = (String) dataItem.get("z");
                 DevGatewayEntity devGatewayEntity = devGatewayService.findBySerialnumber(serialnumber);
+                if(devGatewayEntity ==null){
+                    log.info("获取数据库中网关信息为空,序列号：{}",serialnumber);
+                }
                 if(devGatewayEntity.getFirm().equalsIgnoreCase(DeviceFactoryConst.ANYLINK)){
 
                     log.info("判断为{}",DeviceFactoryConst.ANYLINK);
@@ -103,7 +106,8 @@ public class MessageKafkaCimHandler {
                         //可以查询到业务域
                         if(obj instanceof TopicData){
                             td = (TopicData) obj;
-                            maindata.setStaId(td.getStandId());
+//                            maindata.setStaId(td.getStandId());
+                            maindata.setStaId("站"+td.getStandId()+"对应org_info.stand_id新站："+td.getCimStandId()+" org_info.cim_stand_id"+td.getStandId());
                             maindata.setAllPoints(metlist.size());
                             maindata.setData(metlist);
                             maindata.setDomain(td.getDataNameShort());

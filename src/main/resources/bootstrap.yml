@@ -24,14 +24,14 @@ spring:
           producer:
             headerMode: raw
         output:
-          destination: data_iot_HPS_uncim_test2
+          destination: data_iot_HPS_uncim_test3
 #          content-type: text/plain;charset=UTF-8
           content-type: application/json
           binder: kafka
           producer:
             headerMode: raw
         input:
-          destination: data_iot_HPS_uncim_test2
+          destination: data_iot_HPS_uncim_test3
 #          content-type: text/plain;charset=UTF-8
           content-type: application/json
           binder: kafka

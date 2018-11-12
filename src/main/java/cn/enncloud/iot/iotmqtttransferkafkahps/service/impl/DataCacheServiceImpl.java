@@ -3,6 +3,7 @@ package cn.enncloud.iot.iotmqtttransferkafkahps.service.impl;
 import cn.enncloud.iot.iotmqtttransferkafkahps.constant.AdapterProperties;
 import cn.enncloud.iot.iotmqtttransferkafkahps.constant.CacheConst;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.AnyLinkData;
+import cn.enncloud.iot.iotmqtttransferkafkahps.dto.CommonData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.SixNetData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.TopicData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.repository.AnyLinkDataItemMappingDao;
@@ -31,14 +32,24 @@ public class DataCacheServiceImpl implements IDataCacheService {
     private AdapterProperties adapterProperties;
     /**
      * 删除缓存
-     * @param agentId
+     *
      */
-    public void deleteWithAgentId(String agentId) {
+    public void deleteWithkeys() {
         try {
-            String key = this.getKey(agentId);
-            redisTemplate.opsForHash().delete(key);
+            String key = this.getKey();
+            redisTemplate.delete(key);
         }catch (Exception e){
             log.error("删除点表缓存错误：{}",e);
+        }
+
+    }
+    public long deleteWithAgentId(String hk) {
+        try {
+            String key = this.getKey();
+            return redisTemplate.opsForHash().delete(key,hk);
+        }catch (Exception e){
+            log.error("删除点表缓存错误：{}",e);
+            return 0;
         }
 
     }
@@ -51,8 +62,8 @@ public class DataCacheServiceImpl implements IDataCacheService {
     public List<AnyLinkData> getAnyLinkPointByAgentId(String agentId) {
 
         try {
-            String key = getKey(agentId);
-            List<AnyLinkData> dataList = (List<AnyLinkData>)redisTemplate.opsForHash().values(key).get(0);
+            String key = getKey();
+            List<AnyLinkData> dataList = (List<AnyLinkData>)redisTemplate.opsForHash().get(key,agentId);
             if(!CollectionUtils.isEmpty(dataList)){
                 return dataList;
             }else {
@@ -72,8 +83,11 @@ public class DataCacheServiceImpl implements IDataCacheService {
 
     }
 
-    private String getKey(String agentId){
-        return adapterProperties.getPre()+"_"+CacheConst.IOT_CACHA_DATA+agentId;
+//    private String getKey(String agentId){
+//        return adapterProperties.getPre()+"_"+CacheConst.IOT_CACHA_DATA+agentId;
+//    }
+    private String getKey(){
+        return adapterProperties.getPre()+"_"+CacheConst.IOT_CACHA_DATA;
     }
 
     /**
@@ -84,8 +98,8 @@ public class DataCacheServiceImpl implements IDataCacheService {
      */
     public  List<SixNetData> getByAgentId(String agentId) {
         try {
-            String key = getKey(agentId);
-            List<SixNetData> dataList = (List<SixNetData>)redisTemplate.opsForHash().values(key).get(0);
+            String key = getKey();
+            List<SixNetData> dataList = (List<SixNetData>)redisTemplate.opsForHash().get(key,agentId);
             if(!CollectionUtils.isEmpty(dataList)){
                 return dataList;
             }else {
@@ -111,14 +125,14 @@ public class DataCacheServiceImpl implements IDataCacheService {
      */
     public Map<String, String> getCommonData() {
         try {
-            String key = adapterProperties.getPre()+CacheConst.IOT_CACHA_COMMON_DATA;
-            Map<String,String> dataList = (Map<String,String>)redisTemplate.opsForHash().entries(key).get(key);
+            String key = getKey();
+            Map<String,String> dataList = (Map<String,String>)redisTemplate.opsForHash().entries(key).get(CacheConst.IOT_CACHA_COMMON_DATA);
             if(!CollectionUtils.isEmpty(dataList)){
                 return dataList;
             }else {
                 Map<String,String> data =  queryRedisCommonData.queryRedisCommonData();
                 if(!CollectionUtils.isEmpty(data)){
-                    redisTemplate.opsForHash().put(key,adapterProperties.getPre()+key,data);
+                    redisTemplate.opsForHash().put(key,CacheConst.IOT_CACHA_COMMON_DATA,data);
                     return data;
                 }else {
                     return null;
@@ -130,13 +144,33 @@ public class DataCacheServiceImpl implements IDataCacheService {
             return queryRedisCommonData.queryRedisCommonData();
         }
     }
+    public List<CommonData> getCommonDataList() {
+        try {
+            String key =  getKey();
+            List<CommonData> dataList = (List<CommonData>)redisTemplate.opsForHash().get(key,CacheConst.IOT_CACHA_COMMON_DATA);
+            if(!CollectionUtils.isEmpty(dataList)){
+                return dataList;
+            }else {
+                List<CommonData> data =  queryRedisCommonData.queryRedisCommonDataList();
+                if(!CollectionUtils.isEmpty(data)){
+                    redisTemplate.opsForHash().put(key,CacheConst.IOT_CACHA_COMMON_DATA,data);
+                    return data;
+                }else {
+                    return null;
+                }
+
+            }
+        }catch (Exception e){
+            log.error("查询业务域错误:{}",e);
+            return queryRedisCommonData.queryRedisCommonDataList();
+        }
+    }
     public  Object getByOrgId(Long orgid) {
         try {
-            String key = adapterProperties.getPre()+"_"+CacheConst.DATA_HUB_PRE+orgid;
-            List res =redisTemplate.opsForHash().values(key);
-            Object obj = null;
+            String key = getKey();
+            Object res =redisTemplate.opsForHash().get(key,CacheConst.DATA_HUB_PRE+orgid);
             TopicData td;
-            if(CollectionUtils.isEmpty(res) || res.get(0) ==null){
+            if(res ==null){
                 //根据 orgid 查询站点id
                 td =  dataItemMappingDao.getTopicDataByType(orgid);
                 if(null == td){
@@ -144,11 +178,10 @@ public class DataCacheServiceImpl implements IDataCacheService {
                     return null;
                 }
                 //设置缓存后 应该再查询进行下面的操作
-                redisTemplate.opsForHash().put(key,CacheConst.DATA_HUB_PRE,td);
+                redisTemplate.opsForHash().put(key,CacheConst.DATA_HUB_PRE+orgid,td);
                 return  td;
             }else {
-                obj = res.get(0);
-                return obj;
+                return res;
             }
         }catch (Exception e){
             log.error("查询胜风合力网关采集点错误:{}",e);

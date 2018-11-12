@@ -2,6 +2,7 @@ package cn.enncloud.iot.iotmqtttransferkafkahps.service;
 
 
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.AnyLinkData;
+import cn.enncloud.iot.iotmqtttransferkafkahps.dto.CommonData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.SixNetData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.TopicData;
 
@@ -29,4 +30,5 @@ public interface IQueryDataPoinService {
      */
     Map<String,String> queryRedisCommonData();
     List<AnyLinkData> findByAgentId(String agentId);
+    List<CommonData> queryRedisCommonDataList();
 }

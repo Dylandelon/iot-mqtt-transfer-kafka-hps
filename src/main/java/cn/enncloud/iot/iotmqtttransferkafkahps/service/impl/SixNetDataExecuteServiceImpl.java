@@ -1,6 +1,7 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.service.impl;
 
 
+import cn.enncloud.iot.iotmqtttransferkafkahps.dto.CommonData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.dto.SixNetData;
 import cn.enncloud.iot.iotmqtttransferkafkahps.service.IDataCacheService;
 import cn.enncloud.iot.iotmqtttransferkafkahps.service.IMessageProcessService;
@@ -41,7 +42,8 @@ public class SixNetDataExecuteServiceImpl implements IMessageProcessService {
         } catch (Exception e) {
           log.error("获取sixnet时间转换错误" + ts, e);
         }
-        Map<String, String> commonMap = dataCacheService.getCommonData();
+//        Map<String, String> commonMap = dataCacheService.getCommonData();
+        List<CommonData> commonDataList = dataCacheService.getCommonDataList();
         Set<String> agentIdset = diteamMap.keySet();
         //获取网关编码
         for (String keystr : agentIdset) {
@@ -69,8 +71,21 @@ public class SixNetDataExecuteServiceImpl implements IMessageProcessService {
               String devId = mapping.getDeviceId().toString();
 
               MetricData ctMetricData = new MetricData();
-//              ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
-              ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric+"-"+itemid);
+              for (CommonData commonData:commonDataList) {
+                if(commonData.getDataValue().equalsIgnoreCase(mapping.getDevType() + "")){
+
+                  String metri = commonData.getDataNameShort() + "_" + devId + "_" + metric;
+                  String newMetir = commonData.getCimDataName() + "_" + mapping.getDevCimId() + "_" + mapping.getCimPath();
+                  //              ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
+//                  ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric+"-"+itemid);
+
+                  ctMetricData.setMetric("原始报文网关："+keystr+"对应表dev_gateway.serialnumber ，设备："+itemid+"对应表dev_device.id_dev_model_phyattribute.id,点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path，设备序列号："+mapping.getSerialnumber()+"对应dev_device.serialnumber," +
+                          "新增cim2.0映射对应"+newMetir+" :common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。");
+                  break;
+                }
+
+              }
+
               ctMetricData.setTime(time.getTime());
               ctMetricData.setValue(dataValue);
               Long orgid = mapping.getOrgId().longValue();

@@ -1,5 +1,6 @@
 package cn.enncloud.iot.iotmqtttransferkafkahps.dto;
 
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -7,6 +8,7 @@ import java.io.Serializable;
 /**
  * Created by zhangdelong on 2018/4/12.
  */
+@ToString
 @Component
 public class TopicData implements Serializable{
 
@@ -19,6 +21,7 @@ public class TopicData implements Serializable{
     private Long deviceType;  //业务域类型
 
     private String  standId;  //站点
+    private String  cimStandId;  //站点
 
     public String getDataValue() {
         return dataValue;
@@ -58,5 +61,13 @@ public class TopicData implements Serializable{
 
     public void setStandId(String standId) {
         this.standId = standId;
+    }
+
+    public String getCimStandId() {
+        return cimStandId;
+    }
+
+    public void setCimStandId(String cimStandId) {
+        this.cimStandId = cimStandId;
     }
 }

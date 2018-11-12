@@ -37,6 +37,10 @@ public class QueryDataPoinServiceImpl implements IQueryDataPoinService {
         commonMap = this.queryCommonData("1");
         return commonMap;
     }
+    @Override
+    public List<CommonData> queryRedisCommonDataList() {
+        return this.queryCommonDataList("1");
+    }
 
     @Override
     public List<AnyLinkData> findByAgentId(String agentId) {
@@ -54,5 +58,10 @@ public class QueryDataPoinServiceImpl implements IQueryDataPoinService {
             }
         }
         return map;
+    }
+    private List<CommonData> queryCommonDataList(String dateType) {
+
+        List<CommonData> listdata =  dataItemMappingDao.queryCommonData(dateType);
+        return listdata;
     }
 }
