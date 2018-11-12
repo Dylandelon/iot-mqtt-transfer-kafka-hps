@@ -1,0 +1,38 @@
+server:
+  port: 8802
+  #Use behind a front-end proxy server
+  use-forward-headers: true
+  tomcat:
+    uri-encoding: UTF-8
+   # 存放Tomcat的日志、Dump等文件的临时文件夹，默认为系统的tmp文件夹（如：C:%users\Shanhy\AppData\Local\Temp）
+    basedir: ${enn.baseDir}/tomcat
+    accesslog:
+      enabled: true
+      pattern: '%h %l %u [%{yyyy-MM-dd HH:mm:ss}t] %{X-Real-IP}i "%r" %s %b %D'
+
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+logging:
+  level:
+    root: info
+enn:
+  logging:
+    kafka:
+      bootstrap-servers: 10.39.10.146:9092,10.39.10.147:9092,10.39.10.148:9092
+      topic: enn_logging_kafka_topic
+  mqtt:
+    host: tcp://10.37.151.21:1883
+    publisher: samplePublisher
+    consumer: dampleConsumermqtt
+    topic: $share/group1/allInOne
+    username: admin
+    password: iotpsw
+    pakageSize: 300
+    timeout: 5000
+    qos: 2
+    pre: ${spring.cloud.config.profile}
