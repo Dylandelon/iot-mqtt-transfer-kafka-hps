@@ -66,7 +66,7 @@ public class MessageKafkaCimHandler {
                 log.info("判断为{}", DeviceFactoryConst.SIXNET);
                 itemMainData = sixNetDataExecuteService.execute(jsonData);
             }else  if(dataItem != null && dataItem.containsKey("z")){
-                String serialnumber  = (String) dataItem.get("z");
+                String serialnumber  = String.valueOf(dataItem.get("z"));
                 DevGatewayEntity devGatewayEntity = devGatewayService.findBySerialnumber(serialnumber);
                 if(devGatewayEntity ==null){
                     log.info("获取数据库中网关信息为空,序列号：{}",serialnumber);

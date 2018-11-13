@@ -18,20 +18,20 @@ spring:
       default-binder: kafka
       bindings:
         cim_output:
-          destination: data_iot_HPS_cim_test
+          destination: data_iot_HPS_cim_prod
           content-type: application/json
           binder: kafka
           producer:
             headerMode: raw
         output:
-          destination: data_iot_HPS_uncim_test3
+          destination: data_iot_HPS_uncim_prod
 #          content-type: text/plain;charset=UTF-8
           content-type: application/json
           binder: kafka
           producer:
             headerMode: raw
         input:
-          destination: data_iot_HPS_uncim_test3
+          destination: data_iot_HPS_uncim_prod
 #          content-type: text/plain;charset=UTF-8
           content-type: application/json
           binder: kafka
