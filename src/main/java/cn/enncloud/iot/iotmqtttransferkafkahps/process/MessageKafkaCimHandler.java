@@ -108,7 +108,12 @@ public class MessageKafkaCimHandler {
                             td = (TopicData) obj;
 //                            maindata.setStaId(td.getStandId());
 //                            maindata.setStaId("站"+td.getStandId()+"对应org_info.stand_id新站："+td.getCimStandId()+" org_info.cim_stand_id"+td.getStandId());
-                            maindata.setStaId(td.getCimStandId()+"!"+td.getStandId()+"!"+td.getId());
+//                            maindata.setStaId(td.getCimStandId()+"!"+td.getStandId()+"!"+td.getId());
+                            if(StringUtils.isEmpty(td.getCimStandId())){
+                                log.error("staid节点空："+td.getCimStandId()+"!"+td.getStandId()+"!"+td.getId());
+                                return;
+                            }
+                            maindata.setStaId(td.getCimStandId());
                             maindata.setAllPoints(metlist.size());
                             maindata.setData(metlist);
                             maindata.setDomain(td.getDataNameShort());
@@ -173,6 +178,9 @@ public class MessageKafkaCimHandler {
      * 发送数据到kafka
      */
     private boolean sendDataToKafka(CimRealTimeMetricDTO kafkaData) throws Exception {
+        if(log.isDebugEnabled()){
+            log.debug("kafka to send{}",JsonUtils.writeValueAsString(kafkaData));
+        }
 
         return messageKafkaOutHandler.doProcess(MessageBuilder.withPayload(kafkaData).build());
     }

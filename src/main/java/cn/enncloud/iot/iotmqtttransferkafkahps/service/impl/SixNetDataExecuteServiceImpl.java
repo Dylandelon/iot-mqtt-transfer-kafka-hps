@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -79,8 +80,19 @@ public class SixNetDataExecuteServiceImpl implements IMessageProcessService {
                   //              ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric);
 //                  ctMetricData.setMetric(commonMap.get(mapping.getDevType() + "") + "_" + devId + "_" + metric+"-"+itemid);
 
-                  ctMetricData.setMetric(newMetir+"；原始报文网关："+keystr+"对应表dev_gateway.serialnumber ；设备："+itemid+"对应表dev_device.id_dev_model_phyattribute.id；原cim点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path；设备序列号："+mapping.getSerialnumber()+"对应dev_device.serialnumber；" +
-                          "新增cim2.0映射对应:common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。common_data、dev_devicedev_model_phyattribute对应主键id依次是："+commonData.getId()+"!"+mapping.getDeviceId()+"!"+mapping.getItemId());
+//                  ctMetricData.setMetric(newMetir+"；原始报文网关："+keystr+"对应表dev_gateway.serialnumber ；设备："+itemid+"对应表dev_device.id_dev_model_phyattribute.id；原cim点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path；设备序列号："+mapping.getSerialnumber()+"对应dev_device.serialnumber；" +
+//                          "新增cim2.0映射对应:common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。common_data、dev_devicedev_model_phyattribute对应主键id依次是："+commonData.getId()+"!"+mapping.getDeviceId()+"!"+mapping.getItemId());
+
+                  if(StringUtils.isEmpty(commonData.getCimDataName()) || StringUtils.isEmpty(mapping.getDevCimId()) || StringUtils.isEmpty(mapping.getCimPath())){
+
+                    log.error(newMetir+"；原始报文网关："+keystr+"对应表dev_gateway.serialnumber ；设备："+itemid+"对应表dev_device.id_dev_model_phyattribute.id；原cim点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path；设备序列号："+mapping.getSerialnumber()+"对应dev_device.serialnumber；" +
+                            "新增cim2.0映射对应:common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。common_data、dev_devicedev_model_phyattribute对应主键id依次是："+commonData.getId()+"!"+mapping.getDeviceId()+"!"+mapping.getItemId());
+                    return null;
+                  }else{
+
+                    ctMetricData.setMetric(commonData.getCimDataName()+"_"+mapping.getDevCimId()+"_"+mapping.getCimPath());
+                  }
+
                   break;
                 }
 
