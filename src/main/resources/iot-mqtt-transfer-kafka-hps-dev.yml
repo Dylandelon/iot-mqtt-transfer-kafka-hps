@@ -26,10 +26,13 @@ enn:
       bootstrap-servers: 10.39.10.146:9092,10.39.10.147:9092,10.39.10.148:9092
       topic: enn_logging_kafka_topic
   mqtt:
+    # todo
     host: tcp://10.37.151.21:1883
     publisher: samplePublisher
+    # todo
     consumer: dampleConsumerdev
-    topic: $share/group1/allInOne
+#    topic: $share/group1/allInOne
+    topic: $local/$share/group1/allInOne
     username: admin
     password: iotpsw
     pakageSize: 300
