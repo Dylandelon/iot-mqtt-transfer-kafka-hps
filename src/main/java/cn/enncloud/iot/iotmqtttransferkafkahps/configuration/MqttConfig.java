@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.integration.channel.DirectChannel;
@@ -27,7 +26,7 @@ import org.springframework.messaging.MessagingException;
 import java.util.Optional;
 
 @Slf4j
-@Configuration
+//@Configuration
 public class MqttConfig {
     @Autowired
     private MessageMqttProcessHandler messageProcess;

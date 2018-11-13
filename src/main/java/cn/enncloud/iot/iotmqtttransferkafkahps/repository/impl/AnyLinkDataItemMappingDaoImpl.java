@@ -42,7 +42,7 @@ public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao 
 	@Transactional(readOnly = true)
 	@Override
 	public TopicData getTopicDataByType(Long orgId) {
-		String sql = " select    c.data_value dataValue ,c.data_name_short dataNameShort,c.data_topic dataTopic,o.stand_id standId ,o.cim_stand_id cimStandId  " +
+		String sql = " select  o.id  id, c.data_value dataValue ,c.data_name_short dataNameShort,c.data_topic dataTopic,o.stand_id standId ,o.cim_stand_id cimStandId  " +
 				"from common_data c,org_info o " +
 				"where o.id=:orgId  and c.data_type=2 and c.deleted=0  and  o.device_type = c.data_value   ";
 		SQLQuery nativeQuery = em.createNativeQuery(sql).unwrap(SQLQuery.class);
@@ -81,7 +81,7 @@ public class AnyLinkDataItemMappingDaoImpl implements AnyLinkDataItemMappingDao 
 	@Transactional(readOnly = true)
 	@Override
 	public List<CommonData> queryCommonData(String dateType){
-		String sql = "SELECT data_name dataName  ,data_value dataValue, data_name_short dataNameShort,cim_data_name cimDataName  from common_data where data_type=:dateType " ;
+		String sql = "SELECT id,data_name dataName  ,data_value dataValue, data_name_short dataNameShort,cim_data_name cimDataName  from common_data where data_type=:dateType " ;
 
 
 		SQLQuery nativeQuery = em.createNativeQuery(sql).unwrap(SQLQuery.class);

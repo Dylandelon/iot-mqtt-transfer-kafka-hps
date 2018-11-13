@@ -4,6 +4,7 @@ import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
  * Created by zhangdelong on 2018/4/12.
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Component
 public class TopicData implements Serializable{
 
+    private Long id;
     private String dataValue;  //业务域的值
 
     private String dataNameShort;  //业务域的 简称
@@ -22,6 +24,14 @@ public class TopicData implements Serializable{
 
     private String  standId;  //站点
     private String  cimStandId;  //站点
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id.longValue();
+    }
 
     public String getDataValue() {
         return dataValue;

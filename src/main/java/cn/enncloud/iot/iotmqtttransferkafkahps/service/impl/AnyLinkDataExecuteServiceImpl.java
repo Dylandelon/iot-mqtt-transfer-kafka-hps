@@ -95,10 +95,13 @@ public class AnyLinkDataExecuteServiceImpl implements IMessageProcessService {
                 if(commonData.getDataValue().equalsIgnoreCase(anyLinkData.getDevType()+"")){
 
                   String metri = commonData.getDataNameShort() + "_" + devId + "_" + metric;
-                  String newMetir = commonData.getCimDataName() + "_" + anyLinkData.getDevCimId() + "_" + anyLinkData.getCimPath();
+                  String newMetir ="["+commonData.getCimDataName()+"]_["+anyLinkData.getDevCimId()+"]_["+anyLinkData.getCimPath()+"]";
 //              ctMetricData.setMetric(commonMap.get(anyLinkData.getDevType() + "") + "_" + devId + "_" + metric);
-                  ctMetricData.setMetric("原始报文网关："+agentId.toString()+"对应表dev_anylink_dataitem_mapping.agent_id ，设备："+deviceId+"-"+itemId+"对应表dev_device.gateway_dev_num-dev_anylink_dataitem_mapping.item_id,点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path，设备序列号："+anyLinkData.getSerialnumber()+"对应dev_device.serialnumber," +
-                          "新增cim2.0映射对应"+newMetir+":common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。");
+//                  ctMetricData.setMetric("原始报文网关："+agentId.toString()+"对应表dev_anylink_dataitem_mapping.agent_id ，设备："+deviceId+"-"+itemId+"对应表dev_device.gateway_dev_num-dev_anylink_dataitem_mapping.item_id,点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path，设备序列号："+anyLinkData.getSerialnumber()+"对应dev_device.serialnumber," +
+//                          "新增cim2.0映射对应"+newMetir+":common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。");
+                  ctMetricData.setMetric(newMetir+"；原始报文网关："+agentId.toString()+"对应表dev_anylink_dataitem_mapping.agent_id ；设备："+deviceId+"-"+itemId+"对应表dev_device.gateway_dev_num-dev_anylink_dataitem_mapping.item_id；原cim点"+metri+":对应common_data.data_name_short_dev_device.id_dev_model_phyattribute.target_path；设备序列号："+anyLinkData.getSerialnumber()+"对应dev_device.serialnumber；" +
+                          "新增cim2.0映射对应:common_data.cim_Data_Name_dev_device.dev_cim_id_dev_model_phyattribute.cimPath。common_data、dev_devicedev_model_phyattribute对应主键id依次是："+commonData.getId()+"!"+anyLinkData.getDeviceId()+"!"+anyLinkData.getItemId());
+
 
                   break;
                 }

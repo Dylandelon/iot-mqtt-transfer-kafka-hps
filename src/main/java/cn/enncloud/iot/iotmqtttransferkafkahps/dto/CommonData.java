@@ -3,6 +3,7 @@ package cn.enncloud.iot.iotmqtttransferkafkahps.dto;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
  * Created by zhangdelong on 2018/7/5.
@@ -10,6 +11,7 @@ import java.io.Serializable;
 @Component
 public class CommonData implements Serializable {
 
+    private Long id;
     private String dataName;
 
     private String dataValue ;
@@ -17,6 +19,14 @@ public class CommonData implements Serializable {
     private String dataNameShort ;
     private String cimDataName ; //1
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id.longValue();
+    }
 
     public String getDataName() {
         return dataName;
