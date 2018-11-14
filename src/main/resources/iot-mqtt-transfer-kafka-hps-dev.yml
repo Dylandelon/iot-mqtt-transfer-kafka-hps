@@ -93,5 +93,5 @@ enn:
     pakageSize: 300
     timeout: 5000
     qos: 1
-    pre: ${spring.cloud.config.profile}
+    pre: iot_prod
 #    keepalive: 20
